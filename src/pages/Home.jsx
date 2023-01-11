@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Categories from '../component/Categories';
 
 export default class Home extends Component {
   state = {
@@ -46,6 +47,9 @@ export default class Home extends Component {
             Carrinho
           </Link>
         </div>
+        <aside>
+          <Categories />
+        </aside>
       </div>
     );
   }
