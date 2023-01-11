@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Search from './Search';
+import Cart from '../pages/Cart';
+import Home from './Home';
 
 export default class Content extends Component {
   render() {
@@ -10,7 +11,12 @@ export default class Content extends Component {
           <Route
             exact
             path="/"
-            component={ Search }
+            component={ Home }
+          />
+          <Route
+            exact
+            path="/cart"
+            component={ Cart }
           />
         </Switch>
       </div>
