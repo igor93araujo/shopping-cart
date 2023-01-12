@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Categories from '../component/Categories';
+import Categories from '../components/Categories';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import '../App.css';
-import Header from '../component/Header';
+import Header from '../components/Header';
 
 export default class Home extends Component {
   state = {
@@ -13,6 +13,9 @@ export default class Home extends Component {
 
   filterItems = async () => {
     const { itemSearch } = this.state;
+    this.setState({
+      itemConteiner: [],
+    });
     const products = await getProductsFromCategoryAndQuery('', itemSearch); // a função de busca acontece somente por digitação assim
 
     this.setState({
@@ -34,6 +37,17 @@ export default class Home extends Component {
     )
   );
 
+  categoriesItems = async ({ target }) => {
+    const getId = target.id;
+    this.setState({
+      itemConteiner: [],
+    });
+    const products = await getProductsFromCategoryAndQuery(getId, ''); // a função de busca acontece somente por digitação assim
+    this.setState({
+      itemConteiner: products.results,
+    });
+  };
+
   render() {
     const { isInputEmpty, itemConteiner, itemSearch } = this.state;
     return (
@@ -46,7 +60,9 @@ export default class Home extends Component {
           />
           <div className="home-search">
             <aside>
-              <Categories />
+              <Categories
+                categoriesItems={ this.categoriesItems }
+              />
             </aside>
             <div className="home-results">
               { isInputEmpty
@@ -59,7 +75,7 @@ export default class Home extends Component {
                 {
                   itemConteiner.length > 0
                     ? itemConteiner.map((item) => (
-                      <div key={ item.title } data-testid="product" className="home-item">
+                      <div key={ item.id } data-testid="product" className="home-item">
                         <img src={ item.thumbnail } alt={ item.title } />
                         <p className="item-name">{item.title}</p>
                         <p className="item-price">{`R$ ${item.price}`}</p>
