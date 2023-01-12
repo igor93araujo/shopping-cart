@@ -65,7 +65,7 @@ export default class Home extends Component {
                         <p className="item-price">{`R$ ${item.price}`}</p>
                       </div>
                     ))
-                    : <p>Nenhum produto foi encontrado</p>
+                    : <h1>Nenhum produto foi encontrado</h1>
                 }
               </div>
             </div>

@@ -11,6 +11,8 @@ aside {
 
 .category {
   margin-bottom: 5%;
+  margin-left: 10%;
+  text-align: left;
 }
 
 .category-title {
@@ -58,10 +60,16 @@ aside {
 .home-items-results {
   display: flex;
   flex-wrap: wrap;
-  height: 120vh;
+  height: 110vh;
   justify-content: center;
   overflow-y: scroll;
   scroll-behavior: smooth;
+}
+
+.home-items-results h1 {
+  color: #3a9c78;
+  font-size: 3rem;
+  width: 25rem;
 }
 
 .home-item {
