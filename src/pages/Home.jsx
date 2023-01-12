@@ -13,7 +13,7 @@ export default class Home extends Component {
 
   filterItems = async () => {
     const { itemSearch } = this.state;
-    const products = await getProductsFromCategoryAndQuery('', itemSearch);
+    const products = await getProductsFromCategoryAndQuery('', itemSearch); // a função de busca acontece somente por digitação assim
 
     this.setState({
       itemConteiner: products.results,
@@ -39,7 +39,7 @@ export default class Home extends Component {
     return (
       <div className="home">
         <div>
-          <Header
+          <Header // chamando as props do header
             itemSearch={ itemSearch }
             handleChange={ this.handleChange }
             filterItems={ this.filterItems }
