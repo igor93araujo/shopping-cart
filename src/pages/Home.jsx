@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-/* import { Link } from 'react-router-dom'; */
 import Categories from '../component/Categories';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import '../App.css';

@@ -120,3 +120,27 @@ aside {
 button {
   border: none;
 }
+
+.cart-back-icon {
+  color: #3a9c78;
+  left: 0;
+  margin: 3rem;
+  position: absolute;
+  top: 5rem;
+  transform: scale(3);
+}
+
+.cart-content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 92vh;
+}
+
+.cart-message p {
+  color: #3a9c78;
+  font-size: 3rem;
+  text-align: center;
+  width: 20rem;
+}
