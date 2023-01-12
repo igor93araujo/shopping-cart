@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import logo from '../logo.png';
+import '../App.css';
 
 export default class Header extends Component {
   render() {
@@ -8,29 +11,32 @@ export default class Header extends Component {
 
     return (
       <div className="searching-elements">
-        <label htmlFor="itemSearch">
-          <input
-            type="text"
-            name="itemSearch"
-            id="itemSearch"
-            onChange={ handleChange }
-            data-testid="query-input"
-            placeholder="Faça sua busca aqui 🔎"
-            value={ itemSearch }
-          />
-        </label>
-        <button
-          type="button"
-          onClick={ filterItems }
-          data-testid="query-button"
-        >
-          Buscar
-        </button>
+        <div className="search-tools">
+          <label htmlFor="itemSearch">
+            <input
+              type="text"
+              name="itemSearch"
+              id="itemSearch"
+              onChange={ handleChange }
+              data-testid="query-input"
+              placeholder="Faça sua busca aqui 🔎"
+              value={ itemSearch }
+            />
+          </label>
+          <button
+            type="button"
+            onClick={ filterItems }
+            data-testid="query-button"
+          >
+            Buscar
+          </button>
+        </div>
+        <img src={ logo } alt="logo" className="logo" />
         <Link
           to="/cart"
           data-testid="shopping-cart-button"
         >
-          Carrinho
+          <AiOutlineShoppingCart className="cartIcon" />
         </Link>
       </div>
     );

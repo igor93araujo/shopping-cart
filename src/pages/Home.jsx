@@ -39,34 +39,38 @@ export default class Home extends Component {
     const { isInputEmpty, itemConteiner, itemSearch } = this.state;
     return (
       <div className="home">
-        <aside>
-          <Categories />
-        </aside>
-        <div className="home-search">
+        <div>
           <Header
             itemSearch={ itemSearch }
             handleChange={ this.handleChange }
             filterItems={ this.filterItems }
           />
-          <div>
-            { isInputEmpty
+          <div className="home-search">
+            <aside>
+              <Categories />
+            </aside>
+            <div className="home-results">
+              { isInputEmpty
             && (
               <p data-testid="home-initial-message">
                 Digite algum termo de pesquisa ou escolha uma categoria.
               </p>
             )}
+              <div className="home-items-results">
+                {
+                  itemConteiner.length > 0
+                    ? itemConteiner.map((item) => (
+                      <div key={ item.title } data-testid="product" className="home-item">
+                        <img src={ item.thumbnail } alt={ item.title } />
+                        <p className="item-name">{item.title}</p>
+                        <p className="item-price">{`R$ ${item.price}`}</p>
+                      </div>
+                    ))
+                    : <p>Nenhum produto foi encontrado</p>
+                }
+              </div>
+            </div>
           </div>
-          {
-            itemConteiner.length > 0
-              ? itemConteiner.map((item) => (
-                <div key={ item.title } data-testid="product">
-                  <p>{item.title}</p>
-                  <img src={ item.thumbnail } alt={ item.title } />
-                  <p>{item.price }</p>
-                </div>
-              ))
-              : <p>Nenhum produto foi encontrado</p>
-          }
         </div>
       </div>
     );
