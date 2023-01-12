@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { TiArrowBack } from 'react-icons/ti';
-import Header from '../component/Header';
+import Header from '../components/Header';
 
 export default class Cart extends Component {
   state = {
