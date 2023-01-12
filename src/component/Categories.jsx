@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getCategories } from '../services/api';
+import '../App.css';
 
 export default class Categories extends Component {
   state = {
@@ -21,9 +22,10 @@ export default class Categories extends Component {
     const { categories } = this.state;
     return (
       <div>
+        <p className="category-title">Categorias</p>
         {
           categories.map((category) => (
-            <div key={ category.id }>
+            <div key={ category.id } className="category">
               <input
                 type="radio"
                 id={ category.id }

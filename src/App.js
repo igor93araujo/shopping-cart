@@ -4,7 +4,7 @@ import Content from './content/Content';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Content />
     </div>
   );
