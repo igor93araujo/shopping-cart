@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Categories from '../components/Categories';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import '../App.css';
@@ -75,11 +76,22 @@ export default class Home extends Component {
                 {
                   itemConteiner.length > 0
                     ? itemConteiner.map((item) => (
-                      <div key={ item.id } data-testid="product" className="home-item">
-                        <img src={ item.thumbnail } alt={ item.title } />
-                        <p className="item-name">{item.title}</p>
-                        <p className="item-price">{`R$ ${item.price}`}</p>
-                      </div>
+                      <Link
+                        to={ `/${item.id}` }
+                        key={ item.id }
+                        itemDetail={ item }
+                        data-testid="product-detail-link"
+                      >
+                        <div data-testid="product" className="home-item">
+                          <img
+                            src={ item.thumbnail }
+                            alt={ item.title }
+                            data-testid="product"
+                          />
+                          <p className="item-name">{item.title}</p>
+                          <p className="item-price">{`R$ ${item.price}`}</p>
+                        </div>
+                      </Link>
                     ))
                     : <h1>Nenhum produto foi encontrado</h1>
                 }
