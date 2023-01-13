@@ -31,7 +31,9 @@ export default class Header extends Component {
             Buscar
           </button>
         </div>
-        <img src={ logo } alt="logo" className="logo" />
+        <Link to="/">
+          <img src={ logo } alt="logo" className="logo" />
+        </Link>
         <Link
           to="/cart"
           data-testid="shopping-cart-button"

@@ -16,9 +16,6 @@ export default class ItemDetails extends Component {
 
   getProductDetails = async () => {
     const { match: { params: { id } } } = this.props;
-    this.setState({
-      itemConteiner: {},
-    });
 
     const product = await getProductById(id);
     this.setState({
@@ -37,28 +34,21 @@ export default class ItemDetails extends Component {
           >
             <TiArrowBack className="cart-back-icon" />
           </Link>
-          <div />
           <div>
-            <div>
-              <p
-                data-testid="product-detail-name"
-              >
-                { itemConteiner.title }
-              </p>
-              <img
-                src={ itemConteiner.thumbnail }
-                alt={ itemConteiner.id }
-                data-testid="product-detail-image"
-              />
-              <p data-testid="product-detail-price">{ itemConteiner.price }</p>
-              <p>{ itemConteiner.warranty }</p>
-              <Link
-                to="/cart"
-                data-testid="shopping-cart-button"
-              >
-                Adicionar ao carrinho
-              </Link>
-            </div>
+            <p data-testid="product-detail-name">{ itemConteiner.title }</p>
+            <img
+              src={ itemConteiner.thumbnail }
+              alt={ itemConteiner.id }
+              data-testid="product-detail-image"
+            />
+            <p data-testid="product-detail-price">{ itemConteiner.price }</p>
+            <p>{`Quantidade disponível: ${itemConteiner.available_quantity}`}</p>
+            <Link
+              to="/cart"
+              data-testid="shopping-cart-button"
+            >
+              Adicionar ao carrinho
+            </Link>
           </div>
         </section>
       </div>

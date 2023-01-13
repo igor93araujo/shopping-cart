@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 import Categories from '../components/Categories';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import '../App.css';
@@ -40,13 +40,21 @@ export default class Home extends Component {
 
   categoriesItems = async ({ target }) => {
     const getId = target.id;
+
     this.setState({
       itemConteiner: [],
     });
-    const products = await getProductsFromCategoryAndQuery(getId, ''); // a função de busca acontece somente por digitação assim
+    const products = await getProductsFromCategoryAndQuery(getId, '');
+
     this.setState({
       itemConteiner: products.results,
     });
+  };
+
+  addToCart = () => {
+    const { itemConteiner } = this.state;
+    const { history } = this.props;
+    itemConteiner.map((item) => history.push(`/${item.id}`));
   };
 
   render() {
@@ -76,22 +84,23 @@ export default class Home extends Component {
                 {
                   itemConteiner.length > 0
                     ? itemConteiner.map((item) => (
-                      <Link
-                        to={ `/${item.id}` }
-                        key={ item.id }
-                        itemDetail={ item }
-                        data-testid="product-detail-link"
-                      >
-                        <div data-testid="product" className="home-item">
+                      <div key={ item.id } data-testid="product">
+                        <div className="home-item">
                           <img
                             src={ item.thumbnail }
                             alt={ item.title }
-                            data-testid="product"
                           />
                           <p className="item-name">{item.title}</p>
                           <p className="item-price">{`R$ ${item.price}`}</p>
+                          <button
+                            type="button"
+                            onClick={ this.addToCart }
+                            data-testid="product-detail-link"
+                          >
+                            Ver mais detalhes
+                          </button>
                         </div>
-                      </Link>
+                      </div>
                     ))
                     : <h1>Nenhum produto foi encontrado</h1>
                 }
@@ -103,3 +112,9 @@ export default class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
