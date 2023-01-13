@@ -4,6 +4,7 @@ import Categories from '../components/Categories';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import '../App.css';
 import Header from '../components/Header';
+import CardProduct from '../components/CardProduct';
 
 export default class Home extends Component {
   state = {
@@ -81,32 +82,10 @@ export default class Home extends Component {
                 Digite algum termo de pesquisa ou escolha uma categoria.
               </p>
             )}
-              <div className="home-items-results">
-                {
-                  itemConteiner.length > 0
-                    ? itemConteiner.map((item) => (
-                      <div key={ item.id } data-testid="product">
-                        <div className="home-item">
-                          <p className="itemId">{item.id}</p>
-                          <img
-                            src={ item.thumbnail }
-                            alt={ item.title }
-                          />
-                          <p className="item-name">{item.title}</p>
-                          <p className="item-price">{`R$ ${item.price}`}</p>
-                          <button
-                            type="button"
-                            onClick={ this.redirectToItemDetails }
-                            data-testid="product-detail-link"
-                          >
-                            Ver mais detalhes
-                          </button>
-                        </div>
-                      </div>
-                    ))
-                    : <h1>Nenhum produto foi encontrado</h1>
-                }
-              </div>
+              <CardProduct
+                itemConteiner={ itemConteiner }
+                redirectToItemDetails={ this.redirectToItemDetails }
+              />
             </div>
           </div>
         </div>
