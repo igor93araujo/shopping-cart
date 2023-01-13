@@ -7,6 +7,7 @@ export default class CardProduct extends Component {
     const {
       itemConteiner,
       redirectToItemDetails,
+      addToCart,
     } = this.props;
     return (
       <div className="home-items-results">
@@ -29,6 +30,14 @@ export default class CardProduct extends Component {
                   >
                     Ver mais detalhes
                   </button>
+                  <button
+                    type="button"
+                    onClick={ () => addToCart(item) }
+                    id={ item.id }
+                    data-testid="product-add-to-cart"
+                  >
+                    Adicionar ao carrinho
+                  </button>
                 </div>
               </div>
             ))
@@ -47,4 +56,5 @@ CardProduct.propTypes = {
     price: PropTypes.number,
   })).isRequired,
   redirectToItemDetails: PropTypes.func.isRequired,
+  addToCart: PropTypes.func.isRequired,
 };

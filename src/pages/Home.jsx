@@ -5,6 +5,8 @@ import { getProductsFromCategoryAndQuery } from '../services/api';
 import '../App.css';
 import Header from '../components/Header';
 import CardProduct from '../components/CardProduct';
+// import { getItem, setItem } from '../services/LocalStorage';
+// import { setItem } from '../services/LocalStorage';
 
 export default class Home extends Component {
   state = {
@@ -59,6 +61,18 @@ export default class Home extends Component {
     return history.push(`/${getItemId}`);
   };
 
+  addToCart = (param) => {
+    if (localStorage.length === 0) {
+      localStorage.setItem('cartItens', JSON.stringify([param]));
+    } else {
+      const myPrevCart = JSON.parse(localStorage.getItem('cartItens'));
+      console.log(myPrevCart);
+      const myCart = [...myPrevCart, param];
+      console.log(myCart);
+      localStorage.setItem('cartItens', JSON.stringify(myCart));
+    }
+  };
+
   render() {
     const { isInputEmpty, itemConteiner, itemSearch } = this.state;
     return (
@@ -85,6 +99,7 @@ export default class Home extends Component {
               <CardProduct
                 itemConteiner={ itemConteiner }
                 redirectToItemDetails={ this.redirectToItemDetails }
+                addToCart={ this.addToCart }
               />
             </div>
           </div>
