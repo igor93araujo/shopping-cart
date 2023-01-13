@@ -51,10 +51,11 @@ export default class Home extends Component {
     });
   };
 
-  addToCart = () => {
-    const { itemConteiner } = this.state;
+  redirectToItemDetails = ({ target }) => {
+    const getItemId = target.parentNode.firstChild.innerHTML;
+
     const { history } = this.props;
-    itemConteiner.map((item) => history.push(`/${item.id}`));
+    return history.push(`/${getItemId}`);
   };
 
   render() {
@@ -86,6 +87,7 @@ export default class Home extends Component {
                     ? itemConteiner.map((item) => (
                       <div key={ item.id } data-testid="product">
                         <div className="home-item">
+                          <p className="itemId">{item.id}</p>
                           <img
                             src={ item.thumbnail }
                             alt={ item.title }
@@ -94,7 +96,7 @@ export default class Home extends Component {
                           <p className="item-price">{`R$ ${item.price}`}</p>
                           <button
                             type="button"
-                            onClick={ this.addToCart }
+                            onClick={ this.redirectToItemDetails }
                             data-testid="product-detail-link"
                           >
                             Ver mais detalhes

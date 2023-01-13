@@ -19,7 +19,13 @@ export default class ItemDetails extends Component {
   getProductDetails = async () => {
     const { match: { params: { id } } } = this.props;
 
+    this.setState({
+      itemConteiner: [],
+    });
+
     const product = await getProductById(id);
+
+    console.log(product);
     this.setState({
       itemConteiner: product,
     }, this.verifyShippingStyle);

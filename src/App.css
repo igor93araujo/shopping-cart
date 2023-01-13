@@ -127,6 +127,7 @@ aside {
 
 button {
   border: none;
+  cursor: pointer;
 }
 
 .cart-back-icon {
@@ -226,4 +227,8 @@ button {
   padding: 2% 3%;
   text-align: center;
   text-decoration: none;
+}
+
+.itemId {
+  display: none;
 }
