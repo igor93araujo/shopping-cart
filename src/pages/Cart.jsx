@@ -10,10 +10,20 @@ export default class Cart extends Component {
   };
 
   componentDidMount() {
+    this.checkLocalStorageItem();
+  }
+
+  checkLocalStorageItem() {
     const myCart = getItem('cartItens');
-    this.setState({
-      countItens: myCart.length || 0,
-    });
+    if (myCart === null) {
+      this.setState({
+        countItens: 0,
+      });
+    } else {
+      this.setState({
+        countItens: myCart.length || 0,
+      });
+    }
   }
 
   render() {
@@ -35,7 +45,7 @@ export default class Cart extends Component {
               )
                 : myCart.map((item) => (
                   <div key={ item.id }>
-                    <p data-testid="shopping-cart-product-name">{item.title}</p>
+                    <span data-testid="shopping-cart-product-name">{item.title}</span>
                     <img src={ item.thumbnail } alt={ item.title } />
                   </div>
                 ))
