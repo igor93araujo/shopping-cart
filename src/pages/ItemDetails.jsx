@@ -41,6 +41,17 @@ export default class ItemDetails extends Component {
     }
   };
 
+  addToCart = (param) => {
+    if (localStorage.length === 0) {
+      localStorage.setItem('cartItens', JSON.stringify([param]));
+    } else {
+      const myPrevCart = JSON.parse(localStorage.getItem('cartItens'));
+      console.log(myPrevCart);
+      const myCart = [...myPrevCart, param];
+      localStorage.setItem('cartItens', JSON.stringify(myCart));
+    }
+  };
+
   render() {
     const { itemConteiner, isFreeShipping } = this.state;
     return (
@@ -72,13 +83,15 @@ export default class ItemDetails extends Component {
               >
                 {`Valor: R$ ${itemConteiner.price}`}
               </p>
-              <Link
-                to="/cart"
-                data-testid="shopping-cart-button"
-                className="addToCartBtn"
+              <button
+                data-testid="product-detail-add-to-cart"
+                type="button"
+                onClick={ () => this.addToCart(itemConteiner) }
+                id={ itemConteiner.id }
+
               >
                 Adicionar ao carrinho
-              </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -93,4 +106,5 @@ ItemDetails.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+
 };
