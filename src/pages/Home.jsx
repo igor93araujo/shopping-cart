@@ -68,7 +68,6 @@ export default class Home extends Component {
       const myPrevCart = JSON.parse(localStorage.getItem('cartItens'));
       console.log(myPrevCart);
       const myCart = [...myPrevCart, param];
-      console.log(myCart);
       localStorage.setItem('cartItens', JSON.stringify(myCart));
     }
   };
