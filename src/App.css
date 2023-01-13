@@ -127,6 +127,7 @@ aside {
 
 button {
   border: none;
+  cursor: pointer;
 }
 
 .cart-back-icon {
@@ -151,4 +152,83 @@ button {
   font-size: 3rem;
   text-align: center;
   width: 20rem;
+}
+
+.cart-item {
+  display: flex;
+  height: 90vh;
+}
+
+.item-img-name {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  margin-left: 1%;
+  width: 35%;
+}
+
+.item-img-name img {
+  width: 20rem;
+}
+
+.item-img-name p {
+  font-size: x-large;
+  font-weight: 600;
+  margin-bottom: 10%;
+  text-align: center;
+  width: 80%;
+}
+
+.cart-back {
+  color: #3a9c78;
+  left: 0;
+  margin: 3rem;
+  position: absolute;
+  top: 5rem;
+  transform: scale(3);
+}
+
+.img-name {
+  align-items: center;
+  border: 0.5px solid rgb(54, 54, 152);
+  box-shadow: 0.3rem 0.1rem 0.9rem rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  justify-content: center;
+  width: 90%;
+}
+
+.item-details {
+  margin-top: 10%;
+  padding: 2%;
+  width: 70vw;
+}
+
+.item-details p {
+  font-size: larger;
+  font-weight: 500;
+}
+
+.item-price-btn {
+  align-items: baseline;
+  display: flex;
+  justify-content: flex-start;
+
+}
+
+.addToCartBtn {
+  background-color: #3a9c78;
+  box-shadow: 0.3rem 0.1rem 0.9rem rgba(0, 0, 0, 0.2);
+  color: white;
+  margin-left: 2%;
+  padding: 2% 3%;
+  text-align: center;
+  text-decoration: none;
+}
+
+.itemId {
+  display: none;
 }

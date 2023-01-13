@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import Categories from '../components/Categories';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import '../App.css';
@@ -39,13 +40,22 @@ export default class Home extends Component {
 
   categoriesItems = async ({ target }) => {
     const getId = target.id;
+
     this.setState({
       itemConteiner: [],
     });
-    const products = await getProductsFromCategoryAndQuery(getId, ''); // a função de busca acontece somente por digitação assim
+    const products = await getProductsFromCategoryAndQuery(getId, '');
+
     this.setState({
       itemConteiner: products.results,
     });
+  };
+
+  redirectToItemDetails = ({ target }) => {
+    const getItemId = target.parentNode.firstChild.innerHTML;
+
+    const { history } = this.props;
+    return history.push(`/${getItemId}`);
   };
 
   render() {
@@ -75,10 +85,23 @@ export default class Home extends Component {
                 {
                   itemConteiner.length > 0
                     ? itemConteiner.map((item) => (
-                      <div key={ item.id } data-testid="product" className="home-item">
-                        <img src={ item.thumbnail } alt={ item.title } />
-                        <p className="item-name">{item.title}</p>
-                        <p className="item-price">{`R$ ${item.price}`}</p>
+                      <div key={ item.id } data-testid="product">
+                        <div className="home-item">
+                          <p className="itemId">{item.id}</p>
+                          <img
+                            src={ item.thumbnail }
+                            alt={ item.title }
+                          />
+                          <p className="item-name">{item.title}</p>
+                          <p className="item-price">{`R$ ${item.price}`}</p>
+                          <button
+                            type="button"
+                            onClick={ this.redirectToItemDetails }
+                            data-testid="product-detail-link"
+                          >
+                            Ver mais detalhes
+                          </button>
+                        </div>
                       </div>
                     ))
                     : <h1>Nenhum produto foi encontrado</h1>
@@ -91,3 +114,9 @@ export default class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
