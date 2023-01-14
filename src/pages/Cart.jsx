@@ -7,11 +7,39 @@ import { getItem } from '../services/LocalStorage';
 export default class Cart extends Component {
   state = {
     countItens: 0,
+    isSubtractBTNdisabled: true,
   };
 
   componentDidMount() {
     this.checkLocalStorageItem();
   }
+
+  subUnit = ({ target }) => {
+    const quantity = +target.nextSibling.innerHTML;
+    console.log(quantity);
+
+    if (quantity === 2) {
+      this.setState({
+        isSubtractBTNdisabled: true,
+      });
+    }
+    target.nextSibling.innerHTML = quantity - 1;
+  };
+
+  addUnit = ({ target }) => {
+    const quantity = +target.previousSibling.innerHTML;
+
+    if (quantity === 1) {
+      this.setState({
+        isSubtractBTNdisabled: true,
+      });
+    }
+    this.setState({
+      isSubtractBTNdisabled: false,
+    });
+
+    target.previousSibling.innerHTML = quantity + 1;
+  };
 
   checkLocalStorageItem() {
     const myCart = getItem('cartItens');
@@ -29,6 +57,7 @@ export default class Cart extends Component {
   render() {
     const { countItens } = this.state;
     const myCart = getItem('cartItens');
+    const { isSubtractBTNdisabled } = this.state;
     return (
       <div>
         <Header />
@@ -47,6 +76,20 @@ export default class Cart extends Component {
                   <div key={ item.id }>
                     <span data-testid="shopping-cart-product-name">{item.title}</span>
                     <img src={ item.thumbnail } alt={ item.title } />
+                    <button
+                      type="button"
+                      onClick={ this.subUnit }
+                      disabled={ isSubtractBTNdisabled }
+                    >
+                      -
+                    </button>
+                    <p>1</p>
+                    <button
+                      type="button"
+                      onClick={ this.addUnit }
+                    >
+                      +
+                    </button>
                   </div>
                 ))
 
