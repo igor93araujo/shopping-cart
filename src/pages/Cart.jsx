@@ -15,6 +15,21 @@ export default class Cart extends Component {
     this.checkLocalStorageItem();
   }
 
+  deleteProduct = (param) => {
+    const { countItens } = this.state;
+    this.setState({
+      loading: true,
+    });
+    const myCart = JSON.parse(localStorage.getItem('cartItens'));
+    const myNewCart = myCart.filter((e) => e.id !== param.id);
+    const removeQnt = myCart.filter((e) => e.id === param.id).length;
+    localStorage.setItem('cartItens', JSON.stringify(myNewCart));
+    this.setState({
+      loading: false,
+      countItens: countItens - removeQnt,
+    });
+  };
+
   removeFromCart = (param) => {
     const { countItens } = this.state;
     this.setState({
@@ -47,7 +62,7 @@ export default class Cart extends Component {
     }
     this.setState({
       loading: false,
-    });
+    }, () => {});
   };
 
   checkLocalStorageItem() {
@@ -101,7 +116,9 @@ export default class Cart extends Component {
                   >
                     <span data-testid="shopping-cart-product-name">{item.title}</span>
                     <img src={ item.thumbnail } alt={ item.title } />
+                    <br />
                     <button
+                      data-testid="product-decrease-quantity"
                       type="button"
                       onClick={ () => this.removeFromCart(item) }
                       disabled={ isSubtractBTNdisabled }
@@ -109,16 +126,26 @@ export default class Cart extends Component {
                       -
                     </button>
                     <p
+                      data-testid="shopping-cart-product-quantity"
                       id={ `${item.id}-qnt` }
                     >
                       { JSON.parse(localStorage.getItem('cartItens'))
                         .filter((element) => element.id === item.id).length }
                     </p>
                     <button
+                      data-testid="product-increase-quantity"
                       type="button"
                       onClick={ () => this.addToCart(item) }
                     >
                       +
+                    </button>
+                    <br />
+                    <button
+                      data-testid="remove-product"
+                      type="button"
+                      onClick={ () => this.deleteProduct(item) }
+                    >
+                      Excluir produto
                     </button>
                     <p>
                       {
@@ -126,16 +153,21 @@ export default class Cart extends Component {
                           : (
                             `R$ ${item.price * JSON
                               .parse(localStorage.getItem('cartItens'))
-                              .filter((element) => element.id === item.id).length}`
+                              .filter((element) => element.id === item.id)
+                              .length}`
                           )
                       }
                     </p>
                   </div>
                 ))
-
             }
-            <p data-testid="shopping-cart-product-quantity">{countItens}</p>
-            <p>{total.toFixed(2)}</p>
+            <p
+              data-testid="shopping-cart-size"
+            >
+              { countItens }
+            </p>
+            <p>{ `Total da compra: R$ ${total}` }</p>
+
           </div>
         </section>
       </div>
