@@ -33,15 +33,20 @@ export default class Cart extends Component {
   removeFromCart = (param) => {
     const { countItens } = this.state;
     this.setState({
-      countItens: countItens - 1,
       loading: true,
     });
     const myCart = JSON.parse(localStorage.getItem('cartItens'));
     const classIdToDecrease = myCart.filter((element) => element.id === param.id);
-    classIdToDecrease.pop();
-    const myCartWithoutTarget = myCart.filter((element) => element.id !== param.id);
-    const myNewCart = [...myCartWithoutTarget, ...classIdToDecrease];
-    localStorage.setItem('cartItens', JSON.stringify(myNewCart));
+    if (classIdToDecrease.length > 1) {
+      classIdToDecrease.pop();
+      const myCartWithoutTarget = myCart.filter((element) => element.id !== param.id);
+      const myNewCart = [...myCartWithoutTarget, ...classIdToDecrease];
+      localStorage.setItem('cartItens', JSON.stringify(myNewCart));
+      this.setState({
+        countItens: countItens - 1,
+      });
+    }
+
     this.setState({
       loading: false,
     });
