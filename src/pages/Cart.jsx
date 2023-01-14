@@ -7,38 +7,47 @@ import { getItem } from '../services/LocalStorage';
 export default class Cart extends Component {
   state = {
     countItens: 0,
-    isSubtractBTNdisabled: true,
+    isSubtractBTNdisabled: false,
+    loading: false,
   };
 
   componentDidMount() {
     this.checkLocalStorageItem();
   }
 
-  subUnit = ({ target }) => {
-    const quantity = +target.nextSibling.innerHTML;
-    console.log(quantity);
-
-    if (quantity === 2) {
-      this.setState({
-        isSubtractBTNdisabled: true,
-      });
-    }
-    target.nextSibling.innerHTML = quantity - 1;
+  removeFromCart = (param) => {
+    const { countItens } = this.state;
+    this.setState({
+      countItens: countItens - 1,
+      loading: true,
+    });
+    const myCart = JSON.parse(localStorage.getItem('cartItens'));
+    const classIdToDecrease = myCart.filter((element) => element.id === param.id);
+    classIdToDecrease.pop();
+    const myCartWithoutTarget = myCart.filter((element) => element.id !== param.id);
+    const myNewCart = [...myCartWithoutTarget, ...classIdToDecrease];
+    localStorage.setItem('cartItens', JSON.stringify(myNewCart));
+    this.setState({
+      loading: false,
+    });
   };
 
-  addUnit = ({ target }) => {
-    const quantity = +target.previousSibling.innerHTML;
-
-    if (quantity === 1) {
-      this.setState({
-        isSubtractBTNdisabled: true,
-      });
+  addToCart = (param) => {
+    const { countItens } = this.state;
+    this.setState({
+      countItens: countItens + 1,
+      loading: true,
+    });
+    if (localStorage.length === 0) {
+      localStorage.setItem('cartItens', JSON.stringify([param]));
+    } else {
+      const myPrevCart = JSON.parse(localStorage.getItem('cartItens'));
+      const myCart = [...myPrevCart, param];
+      localStorage.setItem('cartItens', JSON.stringify(myCart));
     }
     this.setState({
-      isSubtractBTNdisabled: false,
+      loading: false,
     });
-
-    target.previousSibling.innerHTML = quantity + 1;
   };
 
   checkLocalStorageItem() {
@@ -55,8 +64,21 @@ export default class Cart extends Component {
   }
 
   render() {
-    const { countItens } = this.state;
-    const myCart = getItem('cartItens');
+    const { countItens, loading } = this.state;
+    let myCart = [];
+    myCart = getItem('cartItens');
+    const myCartItensRender = myCart.reduce((acc, curr) => {
+      const haveThisID = acc.some((element) => element.id === curr.id);
+      if (!haveThisID) {
+        acc = [...acc, curr];
+      }
+      return acc;
+    }, []);
+    const total = myCartItensRender.reduce((acc, curr) => {
+      acc += myCart.filter((e) => e.id === curr.id).length * curr.price;
+      return acc;
+    }, 0);
+
     const { isSubtractBTNdisabled } = this.state;
     return (
       <div>
@@ -69,32 +91,51 @@ export default class Cart extends Component {
           </Link>
           <div className="cart-message">
             {
-              localStorage.length === 0 ? (
+              countItens === 0 ? (
                 <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
               )
-                : myCart.map((item) => (
-                  <div key={ item.id }>
+                : myCartItensRender.map((item) => (
+                  <div
+                    key={ item.id }
+                    id={ item.id }
+                  >
                     <span data-testid="shopping-cart-product-name">{item.title}</span>
                     <img src={ item.thumbnail } alt={ item.title } />
                     <button
                       type="button"
-                      onClick={ this.subUnit }
+                      onClick={ () => this.removeFromCart(item) }
                       disabled={ isSubtractBTNdisabled }
                     >
                       -
                     </button>
-                    <p>1</p>
+                    <p
+                      id={ `${item.id}-qnt` }
+                    >
+                      { JSON.parse(localStorage.getItem('cartItens'))
+                        .filter((element) => element.id === item.id).length }
+                    </p>
                     <button
                       type="button"
-                      onClick={ this.addUnit }
+                      onClick={ () => this.addToCart(item) }
                     >
                       +
                     </button>
+                    <p>
+                      {
+                        loading ? <p>Loading</p>
+                          : (
+                            `R$ ${item.price * JSON
+                              .parse(localStorage.getItem('cartItens'))
+                              .filter((element) => element.id === item.id).length}`
+                          )
+                      }
+                    </p>
                   </div>
                 ))
 
             }
             <p data-testid="shopping-cart-product-quantity">{countItens}</p>
+            <p>{total.toFixed(2)}</p>
           </div>
         </section>
       </div>

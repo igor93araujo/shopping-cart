@@ -5,8 +5,6 @@ import { getProductsFromCategoryAndQuery } from '../services/api';
 import '../App.css';
 import Header from '../components/Header';
 import CardProduct from '../components/CardProduct';
-// import { getItem, setItem } from '../services/LocalStorage';
-// import { setItem } from '../services/LocalStorage';
 
 export default class Home extends Component {
   state = {
