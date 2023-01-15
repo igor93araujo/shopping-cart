@@ -35,21 +35,15 @@ export default class Cart extends Component {
     this.setState({
       loading: true,
     });
-    const myCart = JSON.parse(localStorage.getItem('cartItens'));
-    const classIdToDecrease = myCart.filter((element) => element.id === param.id);
-    if (classIdToDecrease.length > 1) {
-      classIdToDecrease.pop();
-      const myCartWithoutTarget = myCart.filter((element) => element.id !== param.id);
-      const myNewCart = [...myCartWithoutTarget, ...classIdToDecrease];
-      localStorage.setItem('cartItens', JSON.stringify(myNewCart));
-      this.setState({
-        countItens: countItens - 1,
-      });
-    }
+
+    let soma = JSON.parse(localStorage.getItem(`${param.id}`));
+    if (soma > 1) soma -= 1;
+    localStorage.setItem(`${param.id}`, JSON.stringify(soma));
 
     this.setState({
+      countItens: countItens - 1,
       loading: false,
-    });
+    }, () => {});
   };
 
   addToCart = (param) => {
@@ -58,13 +52,11 @@ export default class Cart extends Component {
       countItens: countItens + 1,
       loading: true,
     });
-    if (localStorage.length === 0) {
-      localStorage.setItem('cartItens', JSON.stringify([param]));
-    } else {
-      const myPrevCart = JSON.parse(localStorage.getItem('cartItens'));
-      const myCart = [...myPrevCart, param];
-      localStorage.setItem('cartItens', JSON.stringify(myCart));
-    }
+
+    let soma = JSON.parse(localStorage.getItem(`${param.id}`));
+    soma += 1;
+    localStorage.setItem(`${param.id}`, JSON.stringify(soma));
+
     this.setState({
       loading: false,
     }, () => {});
@@ -89,15 +81,9 @@ export default class Cart extends Component {
     if (myCart === null) {
       myCart = [];
     }
-    const myCartItensRender = myCart.reduce((acc, curr) => {
-      const haveThisID = acc.some((element) => element.id === curr.id);
-      if (!haveThisID) {
-        acc = [...acc, curr];
-      }
-      return acc;
-    }, []);
-    const total = myCartItensRender.reduce((acc, curr) => {
-      acc += myCart.filter((e) => e.id === curr.id).length * curr.price;
+    const total = myCart.reduce((acc, curr) => {
+      const qnt = JSON.parse(localStorage.getItem(`${curr.id}`));
+      acc += qnt * curr.price;
       return acc;
     }, 0);
 
@@ -116,7 +102,7 @@ export default class Cart extends Component {
               countItens === 0 ? (
                 <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
               )
-                : myCartItensRender.map((item) => (
+                : myCart.map((item) => (
                   <div
                     key={ item.id }
                     id={ item.id }
@@ -136,8 +122,7 @@ export default class Cart extends Component {
                       data-testid="shopping-cart-product-quantity"
                       id={ `${item.id}-qnt` }
                     >
-                      { JSON.parse(localStorage.getItem('cartItens'))
-                        .filter((element) => element.id === item.id).length }
+                      { JSON.parse(localStorage.getItem(`${item.id}`)) }
                     </p>
                     <button
                       data-testid="product-increase-quantity"
@@ -159,9 +144,7 @@ export default class Cart extends Component {
                         loading ? <p>Loading</p>
                           : (
                             `R$ ${item.price * JSON
-                              .parse(localStorage.getItem('cartItens'))
-                              .filter((element) => element.id === item.id)
-                              .length}`
+                              .parse(localStorage.getItem(`${item.id}`))}`
                           )
                       }
                     </p>
