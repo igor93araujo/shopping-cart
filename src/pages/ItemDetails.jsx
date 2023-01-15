@@ -44,11 +44,18 @@ export default class ItemDetails extends Component {
   addToCart = (param) => {
     if (localStorage.length === 0) {
       localStorage.setItem('cartItens', JSON.stringify([param]));
+      localStorage.setItem(`${param.id}`, JSON.stringify(1));
     } else {
+      let myCart = [];
       const myPrevCart = JSON.parse(localStorage.getItem('cartItens'));
-      console.log(myPrevCart);
-      const myCart = [...myPrevCart, param];
+      const isAlreadyInCart = myPrevCart.some((e) => e.id === param.id);
+      if (isAlreadyInCart) {
+        myCart = myPrevCart;
+      } else {
+        myCart = [...myPrevCart, param];
+      }
       localStorage.setItem('cartItens', JSON.stringify(myCart));
+      localStorage.setItem(`${param.id}`, JSON.stringify(1));
     }
   };
 
