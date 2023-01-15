@@ -85,8 +85,10 @@ export default class Cart extends Component {
 
   render() {
     const { countItens, loading } = this.state;
-    let myCart = [];
-    myCart = getItem('cartItens');
+    let myCart = getItem('cartItens');
+    if (myCart === null) {
+      myCart = [];
+    }
     const myCartItensRender = myCart.reduce((acc, curr) => {
       const haveThisID = acc.some((element) => element.id === curr.id);
       if (!haveThisID) {
