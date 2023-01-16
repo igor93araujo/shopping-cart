@@ -4,7 +4,7 @@ import '../App.css';
 
 export default class Evaluation extends Component {
   render() {
-    const { onChange, email, text, addRate, validRating } = this.props;
+    const { onChange, email, text, rating, addRate } = this.props;
     return (
       <section className="item-eval">
         <h2>Avaliações</h2>
@@ -21,13 +21,15 @@ export default class Evaluation extends Component {
             />
             <label
               htmlFor="radio"
-              data-testid="review-card-rating"
+              data-testid="product-card-rating"
+              value={ rating }
             >
               <input
                 type="radio"
                 name="rating"
                 value="1"
                 onChange={ onChange }
+                checked={ onchange }
                 data-testid="1-rating"
               />
               1
@@ -37,6 +39,7 @@ export default class Evaluation extends Component {
                 value="2"
                 onChange={ onChange }
                 data-testid="2-rating"
+                checked={ onchange }
               />
               2
               <input
@@ -45,6 +48,7 @@ export default class Evaluation extends Component {
                 value="3"
                 onChange={ onChange }
                 data-testid="3-rating"
+                checked={ onchange }
               />
               3
               <input
@@ -53,6 +57,7 @@ export default class Evaluation extends Component {
                 value="4"
                 onChange={ onChange }
                 data-testid="4-rating"
+                checked={ onchange }
               />
               4
               <input
@@ -61,6 +66,7 @@ export default class Evaluation extends Component {
                 value="5"
                 onChange={ onChange }
                 data-testid="5-rating"
+                checked={ onchange }
               />
               5
             </label>
@@ -85,9 +91,6 @@ export default class Evaluation extends Component {
 
           </button>
         </form>
-        {
-          validRating === false && <p data-testid="error-msg">Campos inválidos</p>
-        }
       </section>
     );
   }

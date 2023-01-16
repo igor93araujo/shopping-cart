@@ -12,15 +12,16 @@ const inicialState = {
   email: '',
   text: '',
   rating: '',
+  checked: false,
 };
 
 export default class ItemDetails extends Component {
   state = {
     ...inicialState,
+    validRating: true,
     itemConteiner: [],
     isFreeShipping: false,
     evaluations: [],
-    validRating: false,
   };
 
   componentDidMount() {
@@ -71,24 +72,38 @@ export default class ItemDetails extends Component {
 
   onChange = ({ target }) => {
     const { value, name } = target;
-    const { email, text, rating } = this.state;
+    console.log(target);
     this.setState({
       [name]: value,
     });
+  };
 
-    if (email.length > 0 && text.length > 0 && rating.value !== null) {
+  validateInputs = () => {
+    const { email, rating } = this.state;
+    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const validEmail = email.match(validRegex);
+    const validRate = rating !== '';
+
+    return validEmail && validRate;
+
+    /*     if (validEmail && validRate) {
       this.setState({
         validRating: true,
       });
-    }
+    } else {
+      this.setState({
+        validRating: false,
+      });
+    } */
   };
 
   addRate = () => {
     const { match: { params: { id } } } = this.props;
-    const { validRating } = this.state;
+    const validInputs = this.validateInputs();
 
     const { email, text, rating } = this.state;
-    if (validRating) {
+
+    if (validInputs) {
       if (getItem(id) === null) {
         setItem(id, [{ email, text, rating }] || []);
       } else {
@@ -98,8 +113,13 @@ export default class ItemDetails extends Component {
 
       this.setState(((prevState) => ({
         evaluations: [...prevState.evaluations, { email, text, rating }],
+        validRating: true,
         ...inicialState,
       })));
+    } else {
+      this.setState({
+        validRating: false,
+      });
     }
   };
 
@@ -120,6 +140,9 @@ export default class ItemDetails extends Component {
       itemConteiner,
       isFreeShipping,
       validRating,
+      email,
+      text,
+      rating,
     } = this.state;
 
     const evaluation = this.recoverRates();
@@ -168,28 +191,32 @@ export default class ItemDetails extends Component {
                 onChange={ this.onChange }
                 removeComent={ this.removeComent }
                 validRating={ validRating }
-                email={ this.email }
-                text={ this.text }
+                email={ email }
+                text={ text }
+                rating={ rating }
               />
             </div>
+            <div>
+              {
+                validRating === false && <p data-testid="error-msg">Campos inválidos</p>
+              }
+            </div>
             {
-              validRating === false ? <p data-testid="error-msg">Campos inválidos</p>
-                : evaluation.map((coment) => (
-
-                  <div className="itemRate" key={ coment.email }>
-                    <div className="emailRate">
-                      <p data-testid="review-card-email">
-                        {coment.email}
-                      </p>
-                      <p
-                        data-testid="review-card-rating"
-                      >
-                        {`Quantidade de estrelas: ${coment.rating}`}
-                      </p>
-                    </div>
-                    <p data-testid="review-card-evaluation">{ coment.text }</p>
+              evaluation.map((comment, index) => (
+                <div className="itemRate" key={ `${comment.email}-${index}` }>
+                  <div className="emailRate">
+                    <p data-testid="review-card-email">
+                      {comment.email}
+                    </p>
+                    <p
+                      data-testid="review-card-rating"
+                    >
+                      {`Quantidade de estrelas: ${comment.rating}`}
+                    </p>
                   </div>
-                ))
+                  <p data-testid="review-card-evaluation">{ comment.text }</p>
+                </div>
+              ))
             }
           </div>
         </div>
