@@ -36,12 +36,15 @@ export default class Cart extends Component {
       loading: true,
     });
 
-    let soma = JSON.parse(localStorage.getItem(`${param.id}`));
-    if (soma > 1) soma -= 1;
-    localStorage.setItem(`${param.id}`, JSON.stringify(soma));
-
+    let soma = JSON.parse(localStorage.getItem(`qnt-${param.id}`));
+    if (soma > 1) {
+      soma -= 1;
+      localStorage.setItem(`qnt-${param.id}`, JSON.stringify(soma));
+      this.setState({
+        countItens: countItens - 1,
+      });
+    }
     this.setState({
-      countItens: countItens - 1,
       loading: false,
     }, () => {});
   };
@@ -53,9 +56,9 @@ export default class Cart extends Component {
       loading: true,
     });
 
-    let soma = JSON.parse(localStorage.getItem(`${param.id}`));
+    let soma = JSON.parse(localStorage.getItem(`qnt-${param.id}`));
     soma += 1;
-    localStorage.setItem(`${param.id}`, JSON.stringify(soma));
+    localStorage.setItem(`qnt-${param.id}`, JSON.stringify(soma));
 
     this.setState({
       loading: false,
@@ -82,7 +85,7 @@ export default class Cart extends Component {
       myCart = [];
     }
     const total = myCart.reduce((acc, curr) => {
-      const qnt = JSON.parse(localStorage.getItem(`${curr.id}`));
+      const qnt = JSON.parse(localStorage.getItem(`qnt-${curr.id}`));
       acc += qnt * curr.price;
       return acc;
     }, 0);
@@ -122,7 +125,7 @@ export default class Cart extends Component {
                       data-testid="shopping-cart-product-quantity"
                       id={ `${item.id}-qnt` }
                     >
-                      { JSON.parse(localStorage.getItem(`${item.id}`)) }
+                      { JSON.parse(localStorage.getItem(`qnt-${item.id}`)) }
                     </p>
                     <button
                       data-testid="product-increase-quantity"
@@ -144,7 +147,7 @@ export default class Cart extends Component {
                         loading ? <p>Loading</p>
                           : (
                             `R$ ${item.price * JSON
-                              .parse(localStorage.getItem(`${item.id}`))}`
+                              .parse(localStorage.getItem(`qnt-${item.id}`))}`
                           )
                       }
                     </p>

@@ -126,8 +126,17 @@ aside {
 }
 
 button {
+  background-color: #3a9c78;
   border: none;
+  color: white;
   cursor: pointer;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+button:hover {
+  background-color: #0a2018;
+  transition: all ease-out 1s;
 }
 
 .cart-back-icon {
@@ -137,6 +146,7 @@ button {
   position: absolute;
   top: 5rem;
   transform: scale(3);
+  width: 100%;
 }
 
 .cart-content {
@@ -201,15 +211,33 @@ button {
   width: 90%;
 }
 
+.item-data {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin-left: 5%;
+}
+
+.item-rate {
+  display: flex;
+  gap: 4rem;
+  width: 60rem;
+}
+
 .item-details {
-  margin-top: 10%;
+  height: fit-content;
+  margin-top: 4%;
   padding: 2%;
-  width: 70vw;
+  width: 15vw;
 }
 
 .item-details p {
   font-size: larger;
   font-weight: 500;
+}
+
+.item-eval {
+  height: fit-content;
 }
 
 .item-price-btn {
@@ -231,4 +259,30 @@ button {
 
 .itemId {
   display: none;
+}
+
+.product-avaliation {
+  margin-top: 6%;
+}
+
+.product-input {
+  display: flex;
+  flex-direction: column;
+  margin-top: 6%;
+}
+
+.rate {
+  display: none;
+}
+
+.itemRate {
+  border: 1px solid gray;
+  margin-bottom: 1rem;
+  padding: 1%;
+}
+
+.emailRate {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
 }

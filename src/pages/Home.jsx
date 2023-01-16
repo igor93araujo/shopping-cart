@@ -62,7 +62,7 @@ export default class Home extends Component {
   addToCart = (param) => {
     if (localStorage.length === 0) {
       localStorage.setItem('cartItens', JSON.stringify([param]));
-      localStorage.setItem(`${param.id}`, JSON.stringify(1));
+      localStorage.setItem(`qnt-${param.id}`, JSON.stringify(1));
     } else {
       let myCart = [];
       const myPrevCart = JSON.parse(localStorage.getItem('cartItens'));
@@ -73,7 +73,7 @@ export default class Home extends Component {
         myCart = [...myPrevCart, param];
       }
       localStorage.setItem('cartItens', JSON.stringify(myCart));
-      localStorage.setItem(`${param.id}`, JSON.stringify(1));
+      localStorage.setItem(`qnt-${param.id}`, JSON.stringify(1));
     }
   };
 
