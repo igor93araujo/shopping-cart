@@ -146,27 +146,23 @@ export default class ItemDetails extends Component {
           </div>
           <div className="item-data">
             <div className="item-rate">
-              <div className="item-details">
-                <h2>Mais informações</h2>
-                {isFreeShipping ? <p>Frete: Grátis</p> : <p>Frete: Calcule o frete</p>}
-                <p>{`Quantidade disponível: ${itemConteiner.available_quantity}`}</p>
-                <div className="item-price-btn">
-                  <p
-                    data-testid="product-detail-price"
-                  >
-                    {`Valor: R$ ${itemConteiner.price}`}
-                  </p>
-                </div>
-                <button
-                  data-testid="product-detail-add-to-cart"
-                  type="button"
-                  onClick={ () => this.addToCart(itemConteiner) }
-                  id={ itemConteiner.id }
+              <h2>Mais informações</h2>
+              {isFreeShipping ? <p>Frete: Grátis</p> : <p>Frete: Calcule o frete</p>}
+              <p>{`Quantidade disponível: ${itemConteiner.available_quantity}`}</p>
+              <p
+                data-testid="product-detail-price"
+              >
+                {`Valor: R$ ${itemConteiner.price}`}
+              </p>
+              <button
+                data-testid="product-detail-add-to-cart"
+                type="button"
+                onClick={ () => this.addToCart(itemConteiner) }
+                id={ itemConteiner.id }
 
-                >
-                  Adicionar ao carrinho
-                </button>
-              </div>
+              >
+                Adicionar ao carrinho
+              </button>
               <Evaluation
                 addRate={ this.addRate }
                 onChange={ this.onChange }
