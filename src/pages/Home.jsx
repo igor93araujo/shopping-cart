@@ -5,6 +5,7 @@ import { getProductsFromCategoryAndQuery } from '../services/api';
 import '../App.css';
 import Header from '../components/Header';
 import CardProduct from '../components/CardProduct';
+import { getItem } from '../services/LocalStorage';
 
 export default class Home extends Component {
   state = {
@@ -60,7 +61,8 @@ export default class Home extends Component {
   };
 
   addToCart = (param) => {
-    if (localStorage.length === 0) {
+    const cartItens = getItem('cartItens');
+    if (cartItens === null) {
       localStorage.setItem('cartItens', JSON.stringify([param]));
       localStorage.setItem(`qnt-${param.id}`, JSON.stringify(1));
     } else {
