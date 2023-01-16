@@ -13,6 +13,7 @@ export default class Cart extends Component {
 
   componentDidMount() {
     this.checkLocalStorageItem();
+    console.log('me apague!');
   }
 
   deleteProduct = (param) => {
@@ -22,7 +23,8 @@ export default class Cart extends Component {
     });
     const myCart = JSON.parse(localStorage.getItem('cartItens'));
     const myNewCart = myCart.filter((e) => e.id !== param.id);
-    const removeQnt = myCart.filter((e) => e.id === param.id).length;
+    const removeQnt = JSON.parse(localStorage.getItem(`qnt-${param.id}`));
+    localStorage.removeItem(`qnt-${param.id}`);
     localStorage.setItem('cartItens', JSON.stringify(myNewCart));
     this.setState({
       loading: false,
