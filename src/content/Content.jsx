@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import Buy from '../pages/Buy';
 import Cart from '../pages/Cart';
 import Home from '../pages/Home';
 import ItemDetails from '../pages/ItemDetails';
@@ -9,6 +10,11 @@ export default class Content extends Component {
     return (
       <div>
         <Switch>
+          <Route
+            exact
+            path="/buy"
+            component={ Buy }
+          />
           <Route
             exact
             path="/"

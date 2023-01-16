@@ -13,7 +13,6 @@ export default class Cart extends Component {
 
   componentDidMount() {
     this.checkLocalStorageItem();
-    console.log('me apague!');
   }
 
   deleteProduct = (param) => {
@@ -101,6 +100,12 @@ export default class Cart extends Component {
             to="/"
           >
             <TiArrowBack className="cart-back-icon" />
+          </Link>
+          <Link
+            to="/buy"
+            data-testid="checkout-products"
+          >
+            Finalize a compra
           </Link>
           <div className="cart-message">
             {
