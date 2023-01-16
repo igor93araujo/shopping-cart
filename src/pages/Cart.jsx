@@ -13,6 +13,7 @@ export default class Cart extends Component {
 
   componentDidMount() {
     this.checkLocalStorageItem();
+    console.log('me apague!');
   }
 
   deleteProduct = (param) => {
