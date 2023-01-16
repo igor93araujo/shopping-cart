@@ -85,9 +85,9 @@ export default class Evaluation extends Component {
 
           </button>
         </form>
-{/*         {
+        {
           validRating === false && <p data-testid="error-msg">Campos inválidos</p>
-        } */}
+        }
       </section>
     );
   }
