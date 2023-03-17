@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { TiArrowBack } from 'react-icons/ti';
 import Header from '../components/Header';
 import { getItem } from '../services/LocalStorage';
+import '../App.css';
 
 export default class Cart extends Component {
   state = {
@@ -101,12 +102,6 @@ export default class Cart extends Component {
           >
             <TiArrowBack className="cart-back-icon" />
           </Link>
-          <Link
-            to="/buy"
-            data-testid="checkout-products"
-          >
-            Finalize a compra
-          </Link>
           <div className="cart-message">
             {
               countItens === 0 ? (
@@ -116,32 +111,46 @@ export default class Cart extends Component {
                   <div
                     key={ item.id }
                     id={ item.id }
+                    className="cart-item"
                   >
                     <span data-testid="shopping-cart-product-name">{item.title}</span>
                     <img src={ item.thumbnail } alt={ item.title } />
-                    <br />
-                    <button
-                      data-testid="product-decrease-quantity"
-                      type="button"
-                      onClick={ () => this.removeFromCart(item) }
-                      disabled={ isSubtractBTNdisabled }
-                    >
-                      -
-                    </button>
-                    <p
-                      data-testid="shopping-cart-product-quantity"
-                      id={ `${item.id}-qnt` }
-                    >
-                      { JSON.parse(localStorage.getItem(`qnt-${item.id}`)) }
+
+                    <div className="cart-item-price">
+                      <button
+                        data-testid="product-decrease-quantity"
+                        type="button"
+                        onClick={ () => this.removeFromCart(item) }
+                        disabled={ isSubtractBTNdisabled }
+                      >
+                        -
+                      </button>
+                      <p
+                        data-testid="shopping-cart-product-quantity"
+                        id={ `${item.id}-qnt` }
+                      >
+                        { JSON.parse(localStorage.getItem(`qnt-${item.id}`)) }
+                      </p>
+                      <button
+                        data-testid="product-increase-quantity"
+                        type="button"
+                        onClick={ () => this.addToCart(item) }
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <p className="item-price">
+                      {
+                        loading ? <p>Loading</p>
+                          : (
+                            `R$ ${(item.price * JSON
+                              .parse(localStorage
+                                .getItem(`qnt-${item.id}`)))
+                              .toFixed(2).replace('.', ',')}`
+                          )
+                      }
                     </p>
-                    <button
-                      data-testid="product-increase-quantity"
-                      type="button"
-                      onClick={ () => this.addToCart(item) }
-                    >
-                      +
-                    </button>
-                    <br />
                     <button
                       data-testid="remove-product"
                       type="button"
@@ -149,25 +158,26 @@ export default class Cart extends Component {
                     >
                       Excluir produto
                     </button>
-                    <p>
-                      {
-                        loading ? <p>Loading</p>
-                          : (
-                            `R$ ${item.price * JSON
-                              .parse(localStorage.getItem(`qnt-${item.id}`))}`
-                          )
-                      }
-                    </p>
                   </div>
                 ))
             }
+          </div>
+          <div className="cart-total">
             <p
               data-testid="shopping-cart-size"
             >
-              { countItens }
+              {`Total de ítens no carrinho: ${countItens}`}
             </p>
-            <p>{ `Total da compra: R$ ${total}` }</p>
-
+            <p>{ `Total da compra: R$ ${(total.toFixed(2).replace('.', ','))}` }</p>
+          </div>
+          <div className="cart-btn">
+            <Link
+              to="/buy"
+              data-testid="checkout-products"
+              className="cart-buy-btn"
+            >
+              Finalize a compra
+            </Link>
           </div>
         </section>
       </div>

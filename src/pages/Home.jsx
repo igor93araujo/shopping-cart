@@ -14,11 +14,12 @@ export default class Home extends Component {
     itemSearch: '',
   };
 
+  componentDidMount() {
+    this.filterItems();
+  }
+
   filterItems = async () => {
     const { itemSearch } = this.state;
-    this.setState({
-      itemConteiner: [],
-    });
     const products = await getProductsFromCategoryAndQuery('', itemSearch); // a função de busca acontece somente por digitação assim
 
     this.setState({

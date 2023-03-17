@@ -34,12 +34,23 @@ export default class Header extends Component {
         <Link to="/">
           <img src={ logo } alt="logo" className="logo" />
         </Link>
-        <Link
-          to="/cart"
-          data-testid="shopping-cart-button"
-        >
-          <AiOutlineShoppingCart className="cartIcon" />
-        </Link>
+        <div className="cartIconContainer">
+          {
+            JSON.parse(localStorage.getItem('cartItens')) !== null
+            && JSON.parse(localStorage.getItem('cartItens')).length > 0
+            && (
+              <span className="cartIconBadge">
+                { JSON.parse(localStorage.getItem('cartItens')).length }
+              </span>
+            )
+          }
+          <Link
+            to="/cart"
+            data-testid="shopping-cart-button"
+          >
+            <AiOutlineShoppingCart className="cartIcon" />
+          </Link>
+        </div>
       </div>
     );
   }

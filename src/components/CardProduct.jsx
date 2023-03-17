@@ -9,6 +9,7 @@ export default class CardProduct extends Component {
       redirectToItemDetails,
       addToCart,
     } = this.props;
+    const max = 60;
     return (
       <div className="home-items-results">
         {
@@ -21,7 +22,12 @@ export default class CardProduct extends Component {
                     src={ item.thumbnail }
                     alt={ item.title }
                   />
-                  <p className="item-name">{item.title}</p>
+                  <p className="item-name">
+                    {
+                      `${item.title.substring(0, max)}...`
+                    }
+
+                  </p>
                   <p className="item-price">{`R$ ${item.price}`}</p>
                   <button
                     type="button"

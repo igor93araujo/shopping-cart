@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import Header from '../components/Header';
 import { getItem } from '../services/LocalStorage';
+import '../App.css';
 
 export default class Buy extends Component {
   state = {
@@ -77,74 +78,83 @@ export default class Buy extends Component {
     return (
       <div>
         <Header />
-        <div>
+        <div className="cart-message">
           {myCart.map((e) => (
-            <div key={ e.id }>
-              <h2>{ e.title }</h2>
+            <div key={ e.id } className="cart-item">
+              <span>{ e.title }</span>
               <img src={ e.thumbnail } alt={ e.title } />
               <p>{`Preço: ${e.price}`}</p>
               <p>
                 {`Quantidade: ${getItem(`qnt-${e.id}`)}`}
               </p>
               <p>
-                {`Total por item: ${e.price * getItem(`qnt-${e.id}`)}`}
+                {
+                  `Total por item: R$ ${(e.price * getItem(`qnt-${e.id}`)).toFixed(2)
+                    .replace('.', ',')
+                  }`
+                }
               </p>
             </div>
           ))}
         </div>
-        <p>{`Sub-total: ${total.toFixed(2)}`}</p>
-        <div>
+        <div className="finish-shop">
+          <p>{`Total: ${total.toFixed(2)}`}</p>
           <form forHTML="">
-            <input
-              type="text"
-              data-testid="checkout-fullname"
-              value={ fullName }
-              name="fullName"
-              placeholder="Nome Completo"
-              onChange={ this.onChange }
-            />
-            <input
-              type="email"
-              data-testid="checkout-email"
-              value={ email }
-              name="email"
-              placeholder="email"
-              onChange={ this.onChange }
-            />
-            <input
-              type="text"
-              data-testid="checkout-cpf"
-              value={ cpf }
-              name="cpf"
-              placeholder="CPF"
-              onChange={ this.onChange }
-            />
-            <br />
-            <input
-              type="text"
-              data-testid="checkout-phone"
-              value={ phone }
-              name="phone"
-              placeholder="Telefone"
-              onChange={ this.onChange }
-            />
-            <input
-              type="text"
-              data-testid="checkout-cep"
-              value={ cep }
-              name="cep"
-              placeholder="CEP"
-              onChange={ this.onChange }
-            />
-            <input
-              type="text"
-              data-testid="checkout-address"
-              value={ address }
-              name="address"
-              placeholder="Endereço"
-              onChange={ this.onChange }
-            />
-            <br />
+            <div className="form-title">
+              <h2>Formulário de compra</h2>
+            </div>
+            <div>
+              <input
+                type="text"
+                data-testid="checkout-fullname"
+                value={ fullName }
+                name="fullName"
+                placeholder="Nome Completo"
+                onChange={ this.onChange }
+              />
+              <input
+                type="email"
+                data-testid="checkout-email"
+                value={ email }
+                name="email"
+                placeholder="email"
+                onChange={ this.onChange }
+              />
+              <input
+                type="text"
+                data-testid="checkout-cpf"
+                value={ cpf }
+                name="cpf"
+                placeholder="CPF"
+                onChange={ this.onChange }
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                data-testid="checkout-phone"
+                value={ phone }
+                name="phone"
+                placeholder="Telefone"
+                onChange={ this.onChange }
+              />
+              <input
+                type="text"
+                data-testid="checkout-cep"
+                value={ cep }
+                name="cep"
+                placeholder="CEP"
+                onChange={ this.onChange }
+              />
+              <input
+                type="text"
+                data-testid="checkout-address"
+                value={ address }
+                name="address"
+                placeholder="Endereço"
+                onChange={ this.onChange }
+              />
+            </div>
             <label
               htmlFor="radio"
               value={ payment }
@@ -187,6 +197,7 @@ export default class Buy extends Component {
               type="submit"
               onClick={ this.onClick }
               data-testid="checkout-btn"
+              className="finish-btn"
             >
               Comprar
             </button>

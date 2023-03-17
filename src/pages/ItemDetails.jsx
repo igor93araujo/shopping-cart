@@ -135,6 +135,12 @@ export default class ItemDetails extends Component {
     return getRecovered;
   };
 
+  removeComent = ({target}) => {
+    const { match: { params: { id } } } = this.props;
+    console.log(getItem(id)[target]);
+    // getItem(id).splice()
+  };
+
   render() {
     const {
       itemConteiner,
@@ -146,7 +152,6 @@ export default class ItemDetails extends Component {
     } = this.state;
 
     const evaluation = this.recoverRates();
-    console.log(evaluation);
 
     return (
       <div>
@@ -186,6 +191,8 @@ export default class ItemDetails extends Component {
               >
                 Adicionar ao carrinho
               </button>
+            </div>
+            <div>
               <Evaluation
                 addRate={ this.addRate }
                 onChange={ this.onChange }
@@ -195,29 +202,38 @@ export default class ItemDetails extends Component {
                 text={ text }
                 rating={ rating }
               />
+              <div>
+                {
+                  validRating === false && <p data-testid="error-msg">Campos inválidos</p>
+                }
+              </div>
+              <div className="item-evaluations">
+                {
+                  evaluation.map((comment, index) => (
+                    <div className="itemRate" key={ `${comment.email}-${index}` }>
+                      <div className="emailRate">
+                        <p data-testid="review-card-email">
+                          {comment.email}
+                        </p>
+                        <p
+                          data-testid="review-card-rating"
+                        >
+                          {`Quantidade de estrelas: ${comment.rating}`}
+                        </p>
+                      </div>
+                      <p data-testid="review-card-evaluation">{ comment.text }</p>
+                      <button
+                        type="button"
+                        onClick={ this.removeComent }
+                      >
+                        Remover avaliação
+
+                      </button>
+                    </div>
+                  ))
+                }
+              </div>
             </div>
-            <div>
-              {
-                validRating === false && <p data-testid="error-msg">Campos inválidos</p>
-              }
-            </div>
-            {
-              evaluation.map((comment, index) => (
-                <div className="itemRate" key={ `${comment.email}-${index}` }>
-                  <div className="emailRate">
-                    <p data-testid="review-card-email">
-                      {comment.email}
-                    </p>
-                    <p
-                      data-testid="review-card-rating"
-                    >
-                      {`Quantidade de estrelas: ${comment.rating}`}
-                    </p>
-                  </div>
-                  <p data-testid="review-card-evaluation">{ comment.text }</p>
-                </div>
-              ))
-            }
           </div>
         </div>
       </div>
